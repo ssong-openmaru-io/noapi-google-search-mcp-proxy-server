@@ -1,0 +1,82 @@
+# ------------------------------------------------------------
+# Base Image
+# ------------------------------------------------------------
+# Microsoft 공식 Playwright Python 이미지 사용
+# - Chromium / Firefox / WebKit 브라우저가 /ms-playwright 경로에 사전 설치되어 있음
+# - pwuser 비권한 사용자 포함
+FROM mcr.microsoft.com/playwright/python:v1.58.0-jammy
+
+
+# ------------------------------------------------------------
+# Working Directory
+# ------------------------------------------------------------
+# 애플리케이션 작업 디렉토리
+WORKDIR /app
+
+
+# ------------------------------------------------------------
+# Python Environment Setup
+# ------------------------------------------------------------
+# pip 최신화 후 MCP 서버 및 proxy 설치
+# - noapi-google-search-mcp : Google 검색 MCP 서버
+# - mcp-proxy              : STDIO ↔ HTTP/SSE 변환 프록시
+RUN pip install --upgrade pip && \
+    pip install noapi-google-search-mcp mcp-proxy
+
+
+# ------------------------------------------------------------
+# Playwright Browser Cache Preparation
+# ------------------------------------------------------------
+# Playwright는 기본적으로 사용자 홈 경로:
+#   ~/.cache/ms-playwright
+# 를 브라우저 탐색 위치로 사용함.
+#
+# 공식 이미지의 브라우저는 /ms-playwright 에 존재하므로
+# pwuser 홈 캐시 위치로 복사하여:
+# - 권한 문제 방지
+# - 환경변수 의존성 제거
+# - MCP / Proxy 환경에서 안정성 확보
+#
+RUN mkdir -p /home/pwuser/.cache && \
+    cp -r /ms-playwright /home/pwuser/.cache/ms-playwright && \
+    chown -R pwuser:pwuser /home/pwuser/.cache
+
+
+# ------------------------------------------------------------
+# Environment Variables
+# ------------------------------------------------------------
+# PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD
+#   런타임 시 추가 브라우저 다운로드 방지 (이미 포함되어 있음)
+#
+# PYTHONUNBUFFERED
+#   로그 버퍼링 방지 (컨테이너 로그 즉시 출력)
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
+    PYTHONUNBUFFERED=1
+
+
+# ------------------------------------------------------------
+# Security: Non-root User
+# ------------------------------------------------------------
+# 보안을 위해 root 대신 기본 제공 pwuser 사용
+USER pwuser
+
+
+# ------------------------------------------------------------
+# Network
+# ------------------------------------------------------------
+# mcp-proxy가 사용할 포트
+EXPOSE 8000
+
+
+# ------------------------------------------------------------
+# Entrypoint
+# ------------------------------------------------------------
+# mcp-proxy 실행
+#
+# 구조:
+#   Client → HTTP(8000) → mcp-proxy → STDIO → MCP Server
+#
+# 실행 서버:
+#   noapi-google-search-mcp
+#
+ENTRYPOINT ["mcp-proxy", "--host=0.0.0.0", "--port=8000", "--", "noapi-google-search-mcp"]
