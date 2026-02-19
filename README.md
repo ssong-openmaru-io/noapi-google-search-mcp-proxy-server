@@ -122,7 +122,7 @@ CMD ["--port=8000", "--host=0.0.0.0", "--", "noapi-google-search-mcp"]
 
 ### 4.1 Build Command
 ```
-docker build -t mcp-google-search .
+docker build -t mcp-google-search -f Dockerfile.server .
 ```
 ### 4.2 Run Command
 ```
