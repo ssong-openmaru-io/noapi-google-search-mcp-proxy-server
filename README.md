@@ -40,11 +40,11 @@ Google Search
 ```
 
 핵심 특징:
-	•	STDIO MCP → HTTP 변환 지원
-	•	Headless Chromium 기반 검색
-	•	Non-root 보안 실행
-	•	브라우저 재다운로드 방지
-	•	컨테이너 환경 최적화
+- STDIO MCP → HTTP 변환 지원
+- Headless Chromium 기반 검색
+- Non-root 보안 실행
+- 브라우저 재다운로드 방지
+- 컨테이너 환경 최적화
 
 ## 3. Dockerfile
 
