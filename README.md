@@ -1,5 +1,7 @@
 # MCP Google Search Server — TECH GUIDE
 
+| https://github.com/ssong-openmaru-io/noapi-google-search-mcp-proxy-server
+
 ## 1. Overview
 
 본 문서는 Playwright 기반 Google 검색 MCP 서버를 컨테이너 환경에서 안정적으로 실행하기 위한 기술 가이드입니다.
