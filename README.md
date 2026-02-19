@@ -7,15 +7,15 @@
 본 문서는 Playwright 기반 Google 검색 MCP 서버를 컨테이너 환경에서 안정적으로 실행하기 위한 기술 가이드입니다.
 
 해당 서버는 다음 구성요소를 기반으로 동작합니다.
-	•	noapi-google-search-mcp : Google 검색 기능을 제공하는 MCP 서버
-	•	mcp-proxy : STDIO 기반 MCP 서버를 HTTP/SSE 인터페이스로 변환
-	•	Playwright Chromium : 브라우저 자동화를 통한 검색 수행
+- noapi-google-search-mcp : Google 검색 기능을 제공하는 MCP 서버
+- mcp-proxy : STDIO 기반 MCP 서버를 HTTP/SSE 인터페이스로 변환
+- Playwright Chromium : 브라우저 자동화를 통한 검색 수행
 
 본 이미지는 다음 환경에서 사용하도록 설계되었습니다.
-	•	Flowise Custom MCP
-	•	Docker Standalone MCP
-	•	Kubernetes MCP Gateway
-	•	AI Agent Platform Integration
+- Flowise Custom MCP
+- Docker Standalone MCP
+- Kubernetes MCP Gateway
+- AI Agent Platform Integration
 
 ⸻
 
