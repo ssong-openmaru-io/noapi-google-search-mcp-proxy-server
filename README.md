@@ -191,7 +191,7 @@ Kubernetes 환경에서 서비스가 배포되면,
 클러스터 내부에서는 다음과 같은 Service DNS Endpoint로 접근할 수 있습니다.
 
 ```
-http://mcp-google-search.default.svc.cluster.local
+http://mcp-google-search.default.svc.cluster.local/sse
 ```
 | 항목|설명|
 |---|---|
@@ -201,7 +201,7 @@ http://mcp-google-search.default.svc.cluster.local
 
 네임스페이스가 변경된 경우:
 ```
-http://mcp-google-search.<namespace>.svc.cluster.local
+http://mcp-google-search.<namespace>.svc.cluster.local/sse
 ```
 
 ## 9. Referer

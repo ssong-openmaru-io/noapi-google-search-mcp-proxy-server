@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-google-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-google-search
+  template:
+    metadata:
+      labels:
+        app: mcp-google-search
+    spec:
+      containers:
+        - name: mcp
+          image: mcp-google-search:latest
+          ports:
+            - containerPort: 8000
